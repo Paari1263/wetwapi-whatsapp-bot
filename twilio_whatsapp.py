@@ -48,6 +48,8 @@ for hour_data in weather_slice:
     condition_code = hour_data["weather"][0]["id"]
     if int(condition_code)<=700:
         will_rain = True
+    else:
+        will_rain = False
 
 ph_no = str(input("Enter your phone number with your LAN extension : "))
 
@@ -70,3 +72,23 @@ if(will_rain):
         body="Bring an Umbrella !"
     )
     print(message.status)
+if(will_rain):
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        to=f"whatsapp:{your_ph_no}", 
+        from_=f"whatsapp:{twilio_ph_no}",
+        body="Bring an Umbrella !"
+    )
+    print(message.status)
+else:
+     client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        to=f"whatsapp:{your_ph_no}", 
+        from_=f"whatsapp:{twilio_ph_no}",
+        body="No rain incoming!"
+    )
+    print(message.status)
+    
+    
